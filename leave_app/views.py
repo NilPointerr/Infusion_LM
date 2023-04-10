@@ -25,32 +25,12 @@ def leaveFormView(request):
         data.save()
         # import pdb; pdb.set_trace()
         get_mailid=User.objects.get(id=user.id)
-        
-        
         subject='Applied For Leave'
         emailfrom=get_mailid.email
-        
-        
         recipientlist=[settings.EMAIL_HOST_USER]
         
-        message=f"hello,I'm {get_mailid},applied for leave ",
         
-        recipient_list=settings.EMAIL_HOST_USER
-        # print(recipient_list[0])
-
+        message=f"hello,I'm {get_mailid.first_name},applied for leave "
+        
         send_mail(subject, message, emailfrom, recipientlist, fail_silently=False)
-        print('#############################################')
     return render(request,'leave_form.html',context)
-
-
-
-# def sendMailView(request,id):
-    
-#     # send_mail(subject='Applied For Leave',
-#     #           message="hello, I'm {{ getmailid.first_name }}, applied for leave ",
-#     #           from_email=get_mailid.email,
-#     #           recipient_list=settings.EMAIL_HOST_USER
-#     #           )
-
-#     return 
-    

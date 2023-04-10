@@ -24,6 +24,9 @@
             top:200px;
             padding: 20px;
           }
+          h3{
+            text-align: center;
+          }
       </style>
 </head>
 <body>
@@ -31,12 +34,12 @@
             
 <div class="main-content container-fluid">
     <!-- <div class="page-title"> -->
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-12 col-md-6 order-md-1 order-last">
                 <h3 style="text-align: center;">Login</h3>
             </div>
            
-        </div>
+        </div> -->
 
     
 
@@ -46,6 +49,7 @@
         <div class="row match-height">
             <div class="col-md-6">
                 <div class="card" >
+                    <h3>Login</h3>
                     <div class="card-content">
                         <div class="card-body " style="position:relative; left: 20px ;">
                             <form class="form" method="POST" enctype="multipart/form-data">
@@ -83,7 +87,7 @@
 
                                     <div class="col-12 d-flex justify-content-center">
                                         <button type="submit" class="btn btn-primary me-1 mb-1" {% url 'login' %}>Login</button>
-                                    </div>
+                                    </div> <br>
 
                                     <div class="col-12 d-flex justify-content-center">
                                        <a href="{% url 'register' %}" >Register Here</a>

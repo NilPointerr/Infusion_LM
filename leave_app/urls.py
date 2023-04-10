@@ -5,7 +5,7 @@ from django.conf import settings
 
 urlpatterns = [
     path('/leaveform/',views.leaveFormView,name='leaveform'),
-    # path('/sendmail/<int:id>',views.sendMailView,name='sendmail'),
+    
 ]  
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
