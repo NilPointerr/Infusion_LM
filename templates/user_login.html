@@ -1,0 +1,110 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add User</title>
+    
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+    
+      <script defer src="{% static 'assets/fontawesome/js/all.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+      <style type="text/css">
+        .notif:hover{
+          background-color: rgba(0,0,0,0.1);
+                  }
+
+         
+        .card{
+            position:relative;  
+            left:425px; 
+            top:200px;
+            padding: 20px;
+          }
+      </style>
+</head>
+<body>
+            
+            
+<div class="main-content container-fluid">
+    <!-- <div class="page-title"> -->
+        <div class="row">
+            <div class="col-12 col-md-6 order-md-1 order-last">
+                <h3 style="text-align: center;">Login</h3>
+            </div>
+           
+        </div>
+
+    
+
+
+    <!-- // Basic multiple Column Form section start -->
+    <section id="multiple-column-form">
+        <div class="row match-height">
+            <div class="col-md-6">
+                <div class="card" >
+                    <div class="card-content">
+                        <div class="card-body " style="position:relative; left: 20px ;">
+                            <form class="form" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                    
+                                    <div class="col-12 d-flex justify-content-center">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="first-name-icon">Username</label>
+                                            <div class="position-relative">
+                                                <input type="text" class="form-control" placeholder="username" id="first-name-icon" name="username">
+                                                <div class="form-control-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                    
+                                    
+                                <div class="col-12 d-flex justify-content-center">
+                                    <div class="col-md-4 col-12">
+                                        <div class="form-group has-icon-left">
+                                            <label for="first-name-icon">Password</label>
+                                            <div class="position-relative">
+                                                <input type="password" class="form-control" placeholder="password" id="first-name-icon" name="password">
+                                                <div class="form-control-icon">
+                                                    <i class="fa fa-key"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                    <div class="col-12 d-flex justify-content-center">
+                                        <button type="submit" class="btn btn-primary me-1 mb-1" {% url 'login' %}>Login</button>
+                                    </div>
+
+                                    <div class="col-12 d-flex justify-content-center">
+                                       <a href="{% url 'register' %}" >Register Here</a>
+                                    </div>
+                                <!-- </div> -->
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- // Basic multiple Column Form section end -->
+</div>
+
+        </div>
+    
+    <script src="{% static 'assets/js/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+    
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+</html>
