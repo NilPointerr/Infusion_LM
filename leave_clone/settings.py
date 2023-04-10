@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'leave_clone.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'leavenew',
+        'NAME': 'infusion',
         'HOST': '127.0.0.1',
         'PORT': '3306',
         'USER': 'root',
@@ -137,3 +137,8 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'nilesh.ultragames@gmail.com'
 EMAIL_HOST_PASSWORD = 'upxewckrksbqania'
+
+AUTH_USER_MODEL = 'home.User'
+
+MEDIA_URL = "/media/"
+MEDIA_ROOT=os.path.join(BASE_DIR,"media")

@@ -38,24 +38,19 @@ crossorigin="anonymous"></script>
               <div class="text-center mb-5">
                 <h3>Register Here </h3>
               </div>
-              <form action="post">
+              <form method="POST" enctype="multipart/form-data" action="{% url 'register' %}">
                 {% csrf_token %}
                 <div class="form-group position-relative has-icon-left">
                   <label for="First_name">First_name</label>
                   <div class="position-relative">
                     <input type="text" class="form-control" name='first_name' placeholder=" First_name" required>
-                    <!-- <div class="form-control-icon">
-                                          <i class="fa fa-user"></i>
-                                      </div> -->
                   </div>
 
                   <div class="form-group position-relative has-icon-left">
                     <label for="Last_name">Last_name</label>
                     <div class="position-relative">
                       <input type="text" class="form-control" name='last_name' placeholder=" Last_name" required>
-                      <!-- <div class="form-control-icon">
-                                          <i class="fa fa-user"></i>
-                                      </div> -->
+
                     </div>
 
                     <div class="form-group position-relative has-icon-left">
@@ -63,9 +58,7 @@ crossorigin="anonymous"></script>
                       <div class="position-relative">
                         <input type="text" class="form-control" name='username' placeholder=" username"
                           style="background: transparent;" required>
-                        <!-- <div class="form-control-icon">
-                                              <i class="fa fa-user"></i>
-                                          </div> -->
+
                       </div>
 
                       <div class="form-group position-relative has-icon-left">
@@ -73,9 +66,7 @@ crossorigin="anonymous"></script>
                         <div class="position-relative">
                           <input type="email" class="form-control" name='email' placeholder="Example@gmail.com"
                             style="background: transparent;" required>
-                          <!-- <div class="form-control-icon">
-                                                  <i class="fa fa-user"></i>
-                                              </div> -->
+
                         </div>
 
                       </div>
@@ -109,7 +100,63 @@ crossorigin="anonymous"></script>
                         </div>
                       </div>
 
+                      <div class="form-group position-relative has-icon-left">
+                        <label for="Username">Profile Picture</label>
+                        <div class="position-relative">
+                          <input type="file" class="form-control" name='profilepicture' 
+                            style="background: transparent;" required>
+                        </div>
 
+
+                        <div class="form-group position-relative has-icon-left">
+                          <label for="Username">Birth Date</label>
+                          <div class="position-relative">
+                            <input type="date" class="form-control" name='birthdate' 
+                              style="background: transparent;" required>
+                          </div>
+
+                          <div class="form-group position-relative has-icon-left">
+                            <label for="Username">Employee Joining Date</label>
+                            <div class="position-relative">
+                              <input type="date" class="form-control" name='employeejoiningdate' 
+                                style="background: transparent;" required>
+                            </div>
+
+
+                            <div class="form-group position-relative has-icon-left">
+                              <label for="Username">Department</label>
+                              <div class="position-relative">
+                                <div class="position-relative">
+                                  <select name="department" class="form-control">
+                                      {% for i in get_department_value %}
+                                      <option value="{{ i.0 }}">{{ i.0 }}</option>
+                                      {% endfor %}
+                                  </select>
+                              </div>
+
+
+                              <div class="form-group position-relative has-icon-left">
+                                <label for="Username">Role  </label>
+                                <div class="position-relative">
+                                  <div class="position-relative">
+                                    <select name="role" class="form-control">
+                                      {% for i in get_role_value %}
+                                      <option value="{{ i.0 }}">{{ i.0 }}</option>
+                                      {% endfor %}
+                                  </select>
+                                </div>
+
+
+                              <div class="form-group position-relative has-icon-left">
+                                <label for="Username">Employee Type</label>
+                                <div class="position-relative">
+                                  <div class="position-relative">
+                                    <select name="employeetype" class="form-control">
+                                      {% for i in get_employee_value %}
+                                      <option value="{{ i.0 }}">{{ i.0 }}</option>
+                                      {% endfor %}
+                                  </select>
+                                </div>
                       <div class='form-check clearfix my-4'>
                         <div class="checkbox float-start">
                           <a href="/" class='float-end'>

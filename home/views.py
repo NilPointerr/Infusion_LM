@@ -12,13 +12,25 @@ from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Q
 from django.conf import settings
 from django.views.decorators.http import require_POST
-from django.http import HttpResponseRedirect
+from .models import User
 
 
 # Create your views here.
 
 
 def register_1(request):
+
+    
+    get_department_value=User.department_choices
+    get_role_value=User.role_choices
+    get_employee_value=User.employee_choices
+
+    context={ 'get_department_value':get_department_value,
+              'get_role_value':get_role_value, 
+              'get_employee_value':get_employee_value,
+            }
+
+
     if request.method == "POST":
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -26,6 +38,13 @@ def register_1(request):
         email = request.POST['email']
         password = request.POST['password']
         re_password = request.POST['re_password']
+        image = request.FILES.get('profilepicture')
+        birth_date=request.POST['birthdate']
+        employee_joining_date=request.POST['employeejoiningdate']
+        department=request.POST['department']
+        role=request.POST['role']
+        employee_type=request.POST['employeetype']
+
         if password == re_password:
             if User.objects.filter(username=username).exists():
                 messages.error(request, 'Username already exist')
@@ -35,14 +54,26 @@ def register_1(request):
                 return render(request, 'register.html')
             else:
                 user = User.objects.create_user(
-                    first_name=first_name, last_name=last_name, username=username, email=email, password=password)
+                    first_name=first_name, 
+                    last_name=last_name, 
+                    username=username, 
+                    email=email,
+                    password=password,
+                    image=image,
+                    birth_date=birth_date,
+                    employee_joining_date=employee_joining_date,
+                    department=department,
+                    role=role,
+                    employee_type=employee_type,
+
+                    )
                 user.save()
                 return redirect('/')
         else:
             messages.error(request, 'password does not match')
             return render(request, 'register.html')
     else:
-        return render(request, 'register.html')
+        return render(request, 'register.html',context)
 
 
 def login_1(request):
@@ -88,10 +119,12 @@ def demo(request):
         startdate = request.POST['startdate']
         enddate = request.POST['enddate']
         leavetype = request.POST['select_value']
+        numberofdays= request.POST['numberofdays']
         subleave = request.POST['select_day']
         user = request.user
         leave = Leave_form(start_date=startdate, end_date=enddate,
-                           leave_type=leavetype, sub_leave=subleave, user=user)
+                           leave_type=leavetype, sub_leave=subleave,
+                            number_of_days=numberofdays ,user=user)
         leave.save()
     return render(request, 'leave.html', context)
 
@@ -300,7 +333,9 @@ def cancel_1(request, pk):
 
 def all_leaves(request, pk):
     emp = Leave_form.objects.get(user_id=pk)
-    con = {'emp': emp}
+    user = User.objects.get(pk=pk)
+    con = {'emp': emp,
+           'user': user }
     return render(request, "emp_detail.html", con)
 
 

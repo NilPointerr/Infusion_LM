@@ -1,5 +1,7 @@
 from django.contrib import admin
 from django.urls import path,include
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import (demo,manageleave,register_1,login_1,logout_1,home_1,accept_1,reject_1,
                     rejected_leaves,accepted_leaves,all_leaves,cancel_1,pending_leaves
                     ,canceled_leaves,undo_button,dashboard)
@@ -23,3 +25,7 @@ urlpatterns = [
     path('dashboard',dashboard,name="dashboard"),
     
 ]
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

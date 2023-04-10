@@ -3,55 +3,116 @@
 
 
 {% block body %}
-<html>
-  
-  
-  <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'leave.css' %}"> 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leave Form</title>
-  </head>
-  <body>
-  <form method="post" >
-      
-      {% csrf_token %}
-      
-      <h1> Leave Form</h1>
-      
-      <fieldset>
-        
-        
-        
-        <label for="name">Start Date:</label>
-        <input type="date" id="startdate" name="startdate" required>
-        
-        <label for="mail">End Date:</label>
-        <input type="date" id="enddate" name="enddate" required>
-        
-        <label>Leave Type</label>
-        <select name="select_value" >
-            {% for i in leave_type_choice %}
-            <option value="{{ i.0 }}">{{ i.0 }}</option>
-            {% endfor %}
-        </select> <br>
+            
+<div class="main-content container-fluid">
+   
 
-        <label>Sub Leave</label>
-        <select name="select_day" >
-            {% for i in leave_day %}
-            <option value="{{ i.0 }}">{{ i.0 }}</option>
-            {% endfor %}
-        </select> <br>
+    
 
-          
-          </fieldset>
-          
-          
-          <button type="submit">Apply for leave </button>       
-        </form>
-      </body>
-      </html>
-      
+
+  <!-- // Basic multiple Column Form section start -->
+  <section id="multiple-column-form">
+      <div class="row match-height">
+          <div class="col-md-6">
+              <div class="card"   >
+                <h3 style="text-align: center;">Leave Form</h3>
+                  <div class="card-content">
+                      <div class="card-body " style="position:relative; left: 20px ;">
+                          <form class="form" method="POST" enctype="multipart/form-data">
+                              {% csrf_token %}
+                                  
+                                  <div class="col-12 d-flex justify-content-center">
+                                  <div class="col-md-4 col-12">
+                                      <div class="form-group has-icon-left">
+                                          <label for="first-name-icon">Start Date: </label>
+                                          <div class="position-relative">
+                                              <input type="date" class="form-control" placeholder="" id="first-name-icon" name="startdate">
+                                              
+                                          </div>
+                                      </div>
+                                  </div> 
+                              </div>
+                                  
+                                  
+                              <div class="col-12 d-flex justify-content-center">
+                                  <div class="col-md-4 col-12">
+                                      <div class="form-group has-icon-left">
+                                          <label for="first-name-icon">End Date:</label>
+                                          <div class="position-relative">
+                                              <input type="date" class="form-control" placeholder="" id="first-name-icon" name="enddate">
+                                              <div class="form-control-icon">
+                                                  <i class="fa fa-key"></i>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+
+                              <div class="col-12 d-flex justify-content-center">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group has-icon-left">
+                                        <label for="first-name-icon">Number of Days: </label>
+                                        <div class="position-relative">
+                                            <input type="number" class="form-control" placeholder="" id="first-name-icon" name="numberofdays">
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                              <div class="col-12 d-flex justify-content-center">
+                                <div class="col-md-4 col-12">
+                                    <div class="form-group has-icon-left">
+                                        <label for="first-name-icon">Leave Type </label>
+                                        <div class="position-relative" >
+                                            
+                                            <select name="select_value" class="form-control" >
+                                              {% for i in leave_type_choice %}
+                                              <option value="{{ i.0 }}">{{ i.0 }}</option>
+                                              {% endfor %}
+                                          </select>
+                                            
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+
+                            <div class="col-12 d-flex justify-content-center">
+                              <div class="col-md-4 col-12">
+                                  <div class="form-group has-icon-left">
+                                      <label for="first-name-icon">Sub Leave </label>
+                                      <div class="position-relative">
+                                          
+                                          <select name="select_day" class="form-control" >
+                                            {% for i in leave_day %}
+                                            <option value="{{ i.0 }}">{{ i.0 }}</option>
+                                            {% endfor %}
+                                        </select>  <br>
+                                          
+                                      </div>
+                                  </div>
+                              </div> 
+                          </div>
+
+
+                                  <div class="col-12 d-flex justify-content-center">
+                                      <button type="submit" class="btn btn-primary me-1 mb-1" {% url 'login' %}>Submit</button>
+                                  </div>
+
+                                  
+                              
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!-- // Basic multiple Column Form section end -->
+</div>
+
+      </div>
+    
 {% endblock body %}
 
 
