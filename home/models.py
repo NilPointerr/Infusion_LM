@@ -107,7 +107,10 @@ class Leave_form(models.Model):
     sub_leave = models.CharField(max_length=100, choices=leaveday)
     status = models.CharField(max_length=100,choices=statustype,default='Pending')
 
+    def __str__(self):
+        return self.user.username
     # class Meta:
+
     #     managed = True
     #     db_table = 'leavein'
     
@@ -116,5 +119,7 @@ class Reason(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE,primary_key=True)
     reason = models.CharField(max_length=500)
 
+    def __str__(self):
+        return self.user.username
     class Meta:
         db_table = 'reason'

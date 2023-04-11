@@ -13,6 +13,7 @@ from django.db.models import Q
 from django.conf import settings
 from django.views.decorators.http import require_POST
 from .models import User
+from datetime import timedelta
 
 
 # Create your views here.
@@ -68,6 +69,7 @@ def register_1(request):
 
                     )
                 user.save()
+
                 return redirect('/')
         else:
             messages.error(request, 'password does not match')
@@ -110,13 +112,14 @@ def home_1(request):
 
 
 @login_required
-def demo(request):
+def leave_form(request):
     leavetype = Leave_form.typeofleave
     subleave = Leave_form.leaveday
     context = {
         "leave_type_choice": leavetype,
         "leave_day": subleave,
     }
+
     if request.method == "POST":
         startdate = request.POST['startdate']
         enddate = request.POST['enddate']
@@ -127,8 +130,14 @@ def demo(request):
         leave = Leave_form(start_date=startdate, end_date=enddate,
                            leave_type=leavetype, sub_leave=subleave,
                             number_of_days=numberofdays ,user=user)
+        
         leave.save()
+
+        return redirect('/dashboard')
+    
     return render(request, 'leave.html', context)
+
+
 
 
 def manageleave(request):
@@ -402,12 +411,34 @@ def dashboard(request):
     superuser_count = User.objects.filter(is_superuser=True).count() 
     total_user = User.objects.all().count()
     Employee = total_user-superuser_count
+
+    # count dayss between startday and endday
+    user = request.user
+    leaves = Leave_form.objects.filter(user=user)
+    for i in leaves:
+        start_date = i.start_date
+        end_date = i.end_date
+        num_days = (end_date - start_date).days + 1
+        working_days = 0
+        for j in range(num_days):
+            day = start_date + timedelta(days=j)
+            if day.weekday() not in [5, 6]:  # 5 is Saturday, 6 is Sunday
+                working_days += 1
+                remainig_day =18 - working_days
+        i.number_of_days = remainig_day
+        i.save()
+    # leave_form_instance = Leave_form.objects.first() 
+    # number_of_days = int(leave_form_instance.number_of_days)
+    # remaining_leaves = 18 - number_of_days
+
+
     con = {'total_canceled_leaves': total_canceled_leaves,
            'total_accept_leaves': total_accept_leaves,
            'total_reject_leaves': total_reject_leaves,
            'total_pending_leaves': total_pending_leaves,
            'total_leaves': total_leaves,
-           'Employee':Employee}
+           'Employee':Employee,
+           'remaining_leaves':leaves}
     return render(request, 'base.html', con)
 
 
