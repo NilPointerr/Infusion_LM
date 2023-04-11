@@ -85,7 +85,9 @@ def login_1(request):
         if user is not None:
             if user.is_superuser:
                 login(request, user)
+                print(user.get_username)
                 return redirect('/dashboard')
+            
 
             else:
                 login(request, user)
@@ -331,11 +333,11 @@ def cancel_1(request, pk):
     return redirect('/dashboard')
 
 
-def all_leaves(request, pk):
+def emp_detail(request, pk):
     emp = Leave_form.objects.get(user_id=pk)
-    user = User.objects.get(pk=pk)
+    emp_user = User.objects.get(pk=pk)
     con = {'emp': emp,
-           'user': user }
+           'emp_user': emp_user }
     return render(request, "emp_detail.html", con)
 
 
@@ -407,6 +409,13 @@ def dashboard(request):
            'total_leaves': total_leaves,
            'Employee':Employee}
     return render(request, 'base.html', con)
+
+
+def user_profile(request,pk):
+    emp_user = User.objects.get(pk=pk)
+    con = {
+           'emp_user': emp_user }
+    return render(request,'user_profile.html',con)
 
 
 

@@ -133,7 +133,7 @@
 
       <section class="row">
         <section class="col-lg-12 col-md-12 col-sm-12 text-center space-margin">
-          <h3 class="title-h3"  style="color: white;">{{ emp.emp_user.username|upper }}</h3>
+          <h3 class="title-h3"  style="color: white;">{{emp_user.username|upper }}</h3>
         </section>
       </section>
 
@@ -152,9 +152,31 @@
               href=""
               role="tab"
               aria-controls=""
-              ><span>Employee's Name</span>
-              <div><b>{{ emp.emp_user.username }}</b></div>
+              ><span>First Name </span>
+              <div><b>{{emp_user.first_name }}</b></div>
             </a>
+            <a
+              class="list-group-item list-group-item-action"
+              id="list-home-list"
+              data-toggle="list"
+              href=""
+              role="tab"
+              aria-controls=""
+              ><span>Last Name</span>
+              <div><b>{{emp_user.last_name }}</b></div>
+            </a>
+
+            <a
+              class="list-group-item list-group-item-action"
+              id="list-home-list"
+              data-toggle="list"
+              href=""
+              role="tab"
+              aria-controls=""
+              ><span>User Name</span>
+              <div><b>{{emp_user.username }}</b></div>
+            </a>
+
             <a
               class="list-group-item list-group-item-action"
               id="list-profile-list"
@@ -162,8 +184,8 @@
               href=""
               role="tab"
               aria-controls=""
-              ><span>Start Date</span>
-              <div><b>{{ emp.start_date }}</b></div>
+              ><span>BirthDate</span>
+              <div><b> {{emp_user.birth_date}} </b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"
@@ -172,8 +194,8 @@
               href=""
               role="tab"
               aria-controls=""
-              ><span>End Date</span>
-              <div><b>{{ emp.end_date }}</b></div>
+              ><span>Joining Date</span>
+              <div><b> {{emp_user.employee_joining_date}} </b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"
@@ -183,7 +205,7 @@
               role="tab"
               aria-controls=""
               ><span>Email</span>
-              <div><b>{{emp.emp_user.email}}</b></div>
+              <div><b>{{emp_user.email}}</b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"
@@ -192,8 +214,8 @@
               href=""
               role="tab"
               aria-controls=""
-              ><span>Type</span>
-              <div><b>{{ emp.leave_type }}</b></div>
+              ><span> Department</span>
+              <div><b>{{emp_user.department}} </b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"
@@ -202,8 +224,8 @@
               href=""
               role="tab"
               aria-controls=""
-              ><span>Sub Leave</span>
-              <div><b>{{ emp.sub_leave }}</b></div>
+              ><span> Role </span>
+              <div><b>{{emp_user.role}}</b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"
@@ -212,30 +234,9 @@
               href=""
               role="tab"
               aria-controls=""
-              ><span>Status</span>
-              <div><b>{{ emp.status}}</b></div>
+              ><span>Employee Type</span>
+              <div><b>{{emp_user.employee_type}} </b></div>
             </a>
-            <form method="post" action="{% url 'reject' pk=emp.user.pk %}">
-              {% csrf_token %}
-            <a
-            class="list-group-item list-group-item-action"
-            id="list-settings-list"
-            data-toggle="list"
-            role="tab"
-            aria-controls=""
-            ><span>Reason</span>
-            <br>
-            <textarea rows="5" cols="60" name="description">Enter Reason here...</textarea>
-            <br>
-          </a>
-          <input type="hidden" name="reason" value="{{ reason }}">
-          <div class="btn-group btn-group-justified" style="margin-top: 10px;">
-            <button type="submit" name="action" value="reject" class="btn btn-danger" style="margin-right: 10px;">Decline</button>
-            <button type="submit" name="action" value="approve" class="btn btn-success" style="margin-right: 10px;">Approve</button>
-            <a href="{% url 'cancel' pk=emp.user.pk %}" class="btn btn-info">Cancel</a>
-          </div>
-          
-
         </form>
           </div>
         </section>
@@ -244,26 +245,9 @@
       <span style="font-size: 13px; padding-left: 1rem" class="pull-left"
         >Created <b></b
       ></span>
-
-      {% comment %} <section class="row">
-        <section class="col col-lg-4 col-sm-12 col-lg-offset-7 text-center" style="
-        margin-left: 467px;">
-        <div class="btn-group btn-group-justified" style="margin-top: 10px;">
-          <div>
-            <a href="{% url 'reject' pk=emp.user.pk %}" class="btn btn-danger">Decline</a>
-          </div>
-          <div style="margin-left: 10px; margin-right: 10px;">
-            <a href="{% url 'accept' pk=emp.user.pk %}" class="btn btn-success">Approve</a>
-          </div>
-          <div>
-            <a href="{% url 'cancel' pk=emp.user.pk %}" class="btn btn-info">Cancel</a>
-          </div>
-        </div>
-        </section>
-      </section> {% endcomment %}
     </section>
   </section>
-  <!-- /container -->
+
 </section>
 </div>
 {% endblock %}
