@@ -3,17 +3,16 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
-from .models import Leave_form,Reason
+from .models import Leave_form, Reason
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
-from django.db.models import Q
 from django.conf import settings
-from django.views.decorators.http import require_POST
 from .models import User
 from datetime import timedelta
+from django.urls import reverse
 
 
 # Create your views here.
@@ -21,16 +20,14 @@ from datetime import timedelta
 
 def register_1(request):
 
-    
-    get_department_value=User.department_choices
-    get_role_value=User.role_choices
-    get_employee_value=User.employee_choices
+    get_department_value = User.department_choices
+    get_role_value = User.role_choices
+    get_employee_value = User.employee_choices
 
-    context={ 'get_department_value':get_department_value,
-              'get_role_value':get_role_value, 
-              'get_employee_value':get_employee_value,
-            }
-
+    context = {'get_department_value': get_department_value,
+               'get_role_value': get_role_value,
+               'get_employee_value': get_employee_value,
+               }
 
     if request.method == "POST":
         first_name = request.POST['first_name']
@@ -40,11 +37,11 @@ def register_1(request):
         password = request.POST['password']
         re_password = request.POST['re_password']
         image = request.FILES.get('profilepicture')
-        birth_date=request.POST['birthdate']
-        employee_joining_date=request.POST['employeejoiningdate']
-        department=request.POST['department']
-        role=request.POST['role']
-        employee_type=request.POST['employeetype']
+        birth_date = request.POST['birthdate']
+        employee_joining_date = request.POST['employeejoiningdate']
+        department = request.POST['department']
+        role = request.POST['role']
+        employee_type = request.POST['employeetype']
 
         if password == re_password:
             if User.objects.filter(username=username).exists():
@@ -55,9 +52,9 @@ def register_1(request):
                 return render(request, 'register.html')
             else:
                 user = User.objects.create_user(
-                    first_name=first_name, 
-                    last_name=last_name, 
-                    username=username, 
+                    first_name=first_name,
+                    last_name=last_name,
+                    username=username,
                     email=email,
                     password=password,
                     image=image,
@@ -67,7 +64,7 @@ def register_1(request):
                     role=role,
                     employee_type=employee_type,
 
-                    )
+                )
                 user.save()
 
                 return redirect('/')
@@ -75,7 +72,7 @@ def register_1(request):
             messages.error(request, 'password does not match')
             return render(request, 'register.html')
     else:
-        return render(request, 'register.html',context)
+        return render(request, 'register.html', context)
 
 
 def login_1(request):
@@ -89,7 +86,6 @@ def login_1(request):
                 login(request, user)
                 print(user.get_username)
                 return redirect('/dashboard')
-            
 
             else:
                 login(request, user)
@@ -124,20 +120,17 @@ def leave_form(request):
         startdate = request.POST['startdate']
         enddate = request.POST['enddate']
         leavetype = request.POST['select_value']
-        numberofdays= request.POST['numberofdays']
         subleave = request.POST['select_day']
         user = request.user
         leave = Leave_form(start_date=startdate, end_date=enddate,
                            leave_type=leavetype, sub_leave=subleave,
-                            number_of_days=numberofdays ,user=user)
-        
+                            user=user)
+
         leave.save()
 
         return redirect('/dashboard')
-    
+
     return render(request, 'leave.html', context)
-
-
 
 
 def manageleave(request):
@@ -150,37 +143,25 @@ def manageleave(request):
     return render(request, 'manage_leave.html', context)
 
 
-def getname(request, pk):
-    user = User.objects.get(pk=pk)
-    print(user.first_name)
-    context = {'user': user}
-    return render(request, 'demo.html', context)
-
-
 def accept_1(request, pk):
     user = User.objects.get(pk=pk)
     obj = get_object_or_404(Leave_form, user_id=pk)
     obj.status = 'Approved'
     obj.save()
 
-
     if 'description' in request.POST:
         reason_text = request.POST.get('description')
     else:
         reason_text = 'No reason provided.'
 
-        
     try:
         reason_obj = Reason.objects.filter(user_id=pk).latest('pk')
     except Reason.DoesNotExist:
-        # Handle the case where there are no Reason objects for the given user_id
-        # For example, you could create a new Reason object:
         reason_obj = Reason(user_id=pk, reason='No reason provided.')
         reason_obj.save()
 
     reason_obj.reason = reason_text
     reason_obj.save()
-
 
     message = f"""Dear {user.username},<br><br>
                 We happy to inform you that your leave application for the following period has been approved:<br><br>
@@ -240,6 +221,7 @@ def accept_1(request, pk):
 
     return redirect('/dashboard')
 
+
 def reject_1(request, pk):
     user = User.objects.get(pk=pk)
     obj = get_object_or_404(Leave_form, user_id=pk)
@@ -251,7 +233,6 @@ def reject_1(request, pk):
     else:
         reason_text = 'No reason provided.'
 
-        
     try:
         reason_obj = Reason.objects.filter(user_id=pk).latest('pk')
     except Reason.DoesNotExist:
@@ -262,7 +243,6 @@ def reject_1(request, pk):
 
     reason_obj.reason = reason_text
     reason_obj.save()
-
 
     message = f"""Dear {user.username},<br><br>
                 We regret to inform you that your leave application for the following period has been declined:<br><br>
@@ -312,7 +292,6 @@ def reject_1(request, pk):
                 Regards,<br>
                 The HR Team"""
 
-
     send_mail(
         'Leave Status',
         '',
@@ -322,7 +301,6 @@ def reject_1(request, pk):
         html_message=message,
     )
     return redirect('/dashboard')
-
 
 
 def cancel_1(request, pk):
@@ -346,7 +324,7 @@ def emp_detail(request, pk):
     emp = Leave_form.objects.get(user_id=pk)
     emp_user = User.objects.get(pk=pk)
     con = {'emp': emp,
-           'emp_user': emp_user }
+           'emp_user': emp_user}
     return render(request, "emp_detail.html", con)
 
 
@@ -408,11 +386,11 @@ def dashboard(request):
     all = Leave_form.objects.all()
     total_leaves = all.count()
 
-    superuser_count = User.objects.filter(is_superuser=True).count() 
+    superuser_count = User.objects.filter(is_superuser=True).count()
     total_user = User.objects.all().count()
     Employee = total_user-superuser_count
 
-    # count dayss between startday and endday
+    # count dayss between startday and endday excluding saturday and sunday
     user = request.user
     leaves = Leave_form.objects.filter(user=user)
     for i in leaves:
@@ -422,35 +400,85 @@ def dashboard(request):
         working_days = 0
         for j in range(num_days):
             day = start_date + timedelta(days=j)
-            if day.weekday() not in [5, 6]:  # 5 is Saturday, 6 is Sunday
+            if day.weekday() not in [5, 6]:
                 working_days += 1
-                remainig_day =18 - working_days
+                remainig_day = 18 - working_days
         i.number_of_days = remainig_day
         i.save()
-    # leave_form_instance = Leave_form.objects.first() 
-    # number_of_days = int(leave_form_instance.number_of_days)
-    # remaining_leaves = 18 - number_of_days
-
 
     con = {'total_canceled_leaves': total_canceled_leaves,
            'total_accept_leaves': total_accept_leaves,
            'total_reject_leaves': total_reject_leaves,
            'total_pending_leaves': total_pending_leaves,
            'total_leaves': total_leaves,
-           'Employee':Employee,
-           'remaining_leaves':leaves}
+           'Employee': Employee,
+           'remaining_leaves': leaves}
     return render(request, 'base.html', con)
 
 
-def user_profile(request,pk):
+def user_profile(request, pk):
     emp_user = User.objects.get(pk=pk)
     con = {
-           'emp_user': emp_user }
-    return render(request,'user_profile.html',con)
+        'emp_user': emp_user}
+    return render(request, 'user_profile.html', con)
 
 
+def leave_request(request):
+    user =request.user
+    obj = User.object.filter(user = user)
+    print("$$$$$$$$$$$$$$$$$$$$$")
 
+    message = f"""Dear {user.username},<br><br>
+                We happy to inform you that your leave application for the following period has been sent Successfully:<br><br>
+                <head>
+                   
+                    <style>
+                        table {{
+                            border-collapse: collapse;
+                        }}
+                        th, td {{
+                            border: 1px solid black;
+                            padding: 5px;
+                        }}
+                        th {{
+                            background-color: #ccc;
+                        }}
+                    </style>
 
+                </head>
 
+                <table style="border: 1px solid black;">
+                    <tr>
+                    <th>Start date</th>
+                    <td>{obj.start_date}</td>
+                    </tr>
+                    <th>End date</th>
+                    <td>{obj.end_date}</td>
+                    </tr>
+                    <tr>
+                    <th>Leave Type</th>
+                    <td>{obj.leave_type}</td>
+                    </tr>
+                    <tr>
+                    <th>Sub leave</th>
+                    <td>{obj.sub_leave}</td>
+                    </tr>
+                    <tr>
+                    <th>Satus</th>
+                    <td>{obj.status}</td>
+                    </tr>
+                    <tr>
+                </table><br>
+                If you have any questions, please don't hesitate to reach out to us.<br><br>
+                Regards,<br>
+                The HR Team"""
 
+    send_mail(
+        'Leave Status',
+        message,
+        'nilesh.ultragmaes@gmail.com',
+        [user.email],
+        fail_silently=False,
+    )
 
+    return redirect('/dashboard')

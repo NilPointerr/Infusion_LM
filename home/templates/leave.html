@@ -38,7 +38,7 @@
                                       <div class="form-group has-icon-left">
                                           <label for="first-name-icon">End Date:</label>
                                           <div class="position-relative">
-                                              <input type="date" class="form-control" placeholder="" id="first-name-icon" name="enddate">
+                                              <input type="date" class="form-control" placeholder="" id="first-name-icon" name="enddate" required>
                                               <div class="form-control-icon">
                                                   <i class="fa fa-key"></i>
                                               </div>
@@ -47,17 +47,6 @@
                                   </div>
                               </div>
 
-                              <div class="col-12 d-flex justify-content-center">
-                                <div class="col-md-4 col-12">
-                                    <div class="form-group has-icon-left">
-                                        <label for="first-name-icon">Number of Days: </label>
-                                        <div class="position-relative">
-                                            <input type="number" class="form-control" placeholder="" id="first-name-icon" name="numberofdays">
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                               <div class="col-12 d-flex justify-content-center">
                                 <div class="col-md-4 col-12">
@@ -95,11 +84,10 @@
 
 
                                   <div class="col-12 d-flex justify-content-center">
-                                      <button type="submit" class="btn btn-primary me-1 mb-1" {% url 'login' %}>Submit</button>
+                                      <button type="submit" name="action" value="leaverequest" class="btn btn-primary me-1 mb-1" >Submit</button>
                                   </div>
 
-                                  
-                              
+                    
                           </form>
                       </div>
                   </div>

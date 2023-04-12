@@ -20,7 +20,7 @@ class User(AbstractUser):
     department_choices=(
                         ('FINANCE','FINANCE'),
                         ('SALES','SALES'),
-                        ('DEVELOPER','DEVELOPER'),
+                        ('SOFTWARE DEVELOPER','SOFTWARE DEVELOPER'),
                         ('HR','HR'),
     )
 

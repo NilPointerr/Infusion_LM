@@ -5,11 +5,11 @@
 <body  style="background-image: url('{% static '/assets/images/ia1.png' %}'); background-size: 15%; background-repeat: no-repeat; background-position: center;  background-attachment: relative;">
 <div class="page-title">
   <div class="row">
-    <div class="col-12 col-md-6 order-md-1 order-last">
+    <div class="col-md-6 order-md-1 order-last">
       <h3 style="color: white;">All Leaves </h3> 
     </div>
 
-    <div class="col-12 col-md-6 order-md-2 order-first">
+    <div class="col-md-6 order-md-2 order-first">
       <nav aria-label="breadcrumb" class='breadcrumb-header'>
         <ol class="breadcrumb">
           <li class="breadcrumb-item"><a href="/dashboard" class="text-success">Dashboard</a></li>
@@ -22,45 +22,47 @@
 <section class="section" style="background-image: url('{% static '/assets/images/login1.jpg' %}'); background-size: 100%; background-repeat: no-repeat; background-position: center;  background-attachment: relative;" >
   <div class="card">
     <div class="card-body">
-      <table class='table' id="table1" style="background-color: transparent;" >
-        <thead>
-          <tr>
-            <th>Full Name</th>
-            <th>Email</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Leave Type</th>
-            <th>Sub Leave </th>
-            <th>Status</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for leave_form in leave_forms %}
-          <tr>
-            <td >{{ leave_form.user.username }}</td>
-            <td>{{leave_form.user.email}}</td>
-            <td>{{ leave_form.start_date }}</td>
-            <td>{{ leave_form.end_date }}</td>
-            <td>{{ leave_form.leave_type }}</td>
-            <td>{{ leave_form.sub_leave }}</td>
-            <td>
-              {% if leave_form.status == 'Pending' %}
-              <span class="text-primary">{{ leave_form.status }}</span>
-              {% elif leave_form.status == 'Rejected' %}
-              <span class="text-danger">{{ leave_form.status }}</span>
-              {% elif leave_form.status == 'Canceled' %}
-              <span class="text-info">{{ leave_form.status }}</span>
-              {% elif leave_form.status == 'Approved' %}
-              <span class="text-success">{{ leave_form.status }}</span>
-              {% endif %}
-            </td>
+      <div class="table-responsive">
+        <table class='table' id="table1" style="background-color: transparent;" >
+          <thead>
+            <tr>
+              <th>Full Name</th>
+              <th>Email</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Leave Type</th>
+              <th>Sub Leave </th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for leave_form in leave_forms %}
+            <tr>
+              <td >{{ leave_form.user.username }}</td>
+              <td>{{leave_form.user.email}}</td>
+              <td>{{ leave_form.start_date }}</td>
+              <td>{{ leave_form.end_date }}</td>
+              <td>{{ leave_form.leave_type }}</td>
+              <td>{{ leave_form.sub_leave }}</td>
+              <td>
+                {% if leave_form.status == 'Pending' %}
+                <span class="text-primary">{{ leave_form.status }}</span>
+                {% elif leave_form.status == 'Rejected' %}
+                <span class="text-danger">{{ leave_form.status }}</span>
+                {% elif leave_form.status == 'Canceled' %}
+                <span class="text-info">{{ leave_form.status }}</span>
+                {% elif leave_form.status == 'Approved' %}
+                <span class="text-success">{{ leave_form.status }}</span>
+                {% endif %}
+              </td>
 
-            <td><a href="{% url 'empdetail' pk=leave_form.user.pk %}"><i class="fa fa-eye text-success"></i></a></td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+              <td><a href="{% url 'empdetail' pk=leave_form.user.pk %}"><i class="fa fa-eye text-success"></i></a></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </section>
@@ -69,6 +71,5 @@
 </div>
 </div>
 </body>
-
 
 {% endblock body %}
