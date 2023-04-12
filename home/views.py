@@ -13,6 +13,7 @@ from django.conf import settings
 from .models import User
 from datetime import timedelta
 from django.urls import reverse
+from datetime import date, timedelta
 
 
 # Create your views here.
@@ -115,6 +116,7 @@ def leave_form(request):
         "leave_type_choice": leavetype,
         "leave_day": subleave,
     }
+    leave = None
 
     if request.method == "POST":
         startdate = request.POST['startdate']
@@ -128,7 +130,7 @@ def leave_form(request):
 
         leave.save()
 
-        return redirect('/dashboard')
+        return redirect(reverse('leaverequest', args=[leave.user_id]))
 
     return render(request, 'leave.html', context)
 
@@ -393,6 +395,10 @@ def dashboard(request):
     # count dayss between startday and endday excluding saturday and sunday
     user = request.user
     leaves = Leave_form.objects.filter(user=user)
+    holidays_datelist = [date(2023, 1, 14), date(2023, 1, 26), date(2023, 3, 18), date(2023, 8, 11),
+                        date(2023, 8, 15), date(2023, 8, 19), date(2023, 10, 5), date(2023, 10, 24),
+                        date(2023, 10, 25), date(2023, 10, 26)]
+
     for i in leaves:
         start_date = i.start_date
         end_date = i.end_date
@@ -400,12 +406,13 @@ def dashboard(request):
         working_days = 0
         for j in range(num_days):
             day = start_date + timedelta(days=j)
-            if day.weekday() not in [5, 6]:
+            if day.weekday() not in [5, 6] and day not in holidays_datelist:
                 working_days += 1
-                remainig_day = 18 - working_days
-        i.number_of_days = remainig_day
-        i.save()
+        remaining_days = 18 - working_days
+        i.remaining_days = remaining_days
+        i.number_of_days = working_days
 
+        i.save()
     con = {'total_canceled_leaves': total_canceled_leaves,
            'total_accept_leaves': total_accept_leaves,
            'total_reject_leaves': total_reject_leaves,
@@ -423,61 +430,60 @@ def user_profile(request, pk):
     return render(request, 'user_profile.html', con)
 
 
-def leave_request(request):
-    user =request.user
-    obj = User.object.filter(user = user)
+def leave_request(request,pk):
+    user = User.objects.get(pk=pk)
+    obj = get_object_or_404(Leave_form, user_id=pk)
+    print(obj.user.username)
     print("$$$$$$$$$$$$$$$$$$$$$")
 
     message = f"""Dear {user.username},<br><br>
-                We happy to inform you that your leave application for the following period has been sent Successfully:<br><br>
-                <head>
-                   
-                    <style>
-                        table {{
-                            border-collapse: collapse;
-                        }}
-                        th, td {{
-                            border: 1px solid black;
-                            padding: 5px;
-                        }}
-                        th {{
-                            background-color: #ccc;
-                        }}
-                    </style>
+                    We are happy to inform you that your leave application for the following period has been sent Successfully:<br><br>
+                    <head>
+                        <style>
+                            table {{
+                                border-collapse: collapse;
+                            }}
+                            th, td {{
+                                border: 1px solid black;
+                                padding: 5px;
+                            }}
+                            th {{
+                                background-color: #ccc;
+                            }}
+                        </style>
+                    </head>
 
-                </head>
-
-                <table style="border: 1px solid black;">
-                    <tr>
-                    <th>Start date</th>
-                    <td>{obj.start_date}</td>
-                    </tr>
-                    <th>End date</th>
-                    <td>{obj.end_date}</td>
-                    </tr>
-                    <tr>
-                    <th>Leave Type</th>
-                    <td>{obj.leave_type}</td>
-                    </tr>
-                    <tr>
-                    <th>Sub leave</th>
-                    <td>{obj.sub_leave}</td>
-                    </tr>
-                    <tr>
-                    <th>Satus</th>
-                    <td>{obj.status}</td>
-                    </tr>
-                    <tr>
-                </table><br>
-                If you have any questions, please don't hesitate to reach out to us.<br><br>
-                Regards,<br>
-                The HR Team"""
+                    <table style="border: 1px solid black;">
+                        <tr>
+                            <th>Start date</th>
+                            <td>{obj.start_date}</td>
+                        </tr>
+                        <tr>
+                            <th>End date</th>
+                            <td>{obj.end_date}</td>
+                        </tr>
+                        <tr>
+                            <th>Leave Type</th>
+                            <td>{obj.leave_type}</td>
+                        </tr>
+                        <tr>
+                            <th>Sub leave</th>
+                            <td>{obj.sub_leave}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{obj.status}</td>
+                        </tr>
+                    </table><br>
+                    If you have any questions, please don't hesitate to reach out to us.<br><br>
+                    Regards,<br>
+                    The HR Team"""
 
     send_mail(
         'Leave Status',
         message,
         'nilesh.ultragmaes@gmail.com',
-        [user.email],
+        ['purohit3133@gmail.com'],
         fail_silently=False,
     )
 

@@ -24,7 +24,7 @@ urlpatterns = [
     path('undo/<int:leave_form_id>/',undo_button,name='undo'),
     path('dashboard',dashboard,name="dashboard"),
     path('userprofile/<int:pk>',user_profile,name='userprofile'),
-    path('leaverequest',leave_request,name='leaverequest'),
+    path('leaverequest/<int:pk>',leave_request,name='leaverequest'),
     
 ]
 

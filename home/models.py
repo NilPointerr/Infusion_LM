@@ -104,6 +104,7 @@ class Leave_form(models.Model):
     end_date = models.DateField()
     leave_type = models.CharField(max_length=100, choices=typeofleave)
     number_of_days = models.CharField(max_length=100,default='')
+    remaining_days = models.CharField(max_length=100,default='')
     sub_leave = models.CharField(max_length=100, choices=leaveday)
     status = models.CharField(max_length=100,choices=statustype,default='Pending')
 
