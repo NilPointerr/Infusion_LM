@@ -413,9 +413,10 @@ def dashboard(request):
         i.number_of_days = working_days
         if i.remaining_days <= 0:
             i.remaining_days = 0
-            i.save()
+            i.save()        
         else:
             i.save()
+
     con = {'total_canceled_leaves': total_canceled_leaves,
            'total_accept_leaves': total_accept_leaves,
            'total_reject_leaves': total_reject_leaves,
@@ -436,8 +437,6 @@ def user_profile(request, pk):
 def leave_request(request,pk):
     user = User.objects.get(pk=pk)
     obj = get_object_or_404(Leave_form, user_id=pk)
-    print(obj.user.username)
-    print("$$$$$$$$$$$$$$$$$$$$$")
 
     message = f"""Dear {user.username},<br><br>
                     We are happy to inform you that your leave application for the following period has been sent Successfully:<br><br>
@@ -484,9 +483,13 @@ def leave_request(request,pk):
     send_mail(
         'Leave Status',
         message,
-        'nilesh.ultragmaes@gmail.com',
+        '',
         ['purohit3133@gmail.com'],
         fail_silently=False,
     )
 
     return redirect('/dashboard')
+
+
+def holiday_list(request):
+    return render(request,'holiday_list.html')

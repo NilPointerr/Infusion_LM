@@ -53,6 +53,12 @@
                   <span>Leave Form </span>
                </a>
             </li>
+            <li class="sidebar-item  ">
+               <a href="/holidaylist" class='sidebar-link'>
+                  <i class="fa fa-building text-success"></i>
+                  <span>Holiday List </span>
+               </a>
+            </li>
 
             
             {%endif%}
@@ -130,7 +136,6 @@
                      </a>
                      <div class="dropdown-menu dropdown-menu-end">
                         <a class="dropdown-item" href="{% url 'userprofile' pk=user.pk %}"><i data-feather="user"></i> Account</a>
-                        <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="/logout"><i data-feather="log-out"></i> Logout</a>
                      </div>
