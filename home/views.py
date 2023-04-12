@@ -411,8 +411,11 @@ def dashboard(request):
         remaining_days = 18 - working_days
         i.remaining_days = remaining_days
         i.number_of_days = working_days
-
-        i.save()
+        if i.remaining_days <= 0:
+            i.remaining_days = 0
+            i.save()
+        else:
+            i.save()
     con = {'total_canceled_leaves': total_canceled_leaves,
            'total_accept_leaves': total_accept_leaves,
            'total_reject_leaves': total_reject_leaves,
@@ -453,32 +456,31 @@ def leave_request(request,pk):
                         </style>
                     </head>
 
-                    <table style="border: 1px solid black;">
-                        <tr>
-                            <th>Start date</th>
-                            <td>{obj.start_date}</td>
-                        </tr>
-                        <tr>
-                            <th>End date</th>
-                            <td>{obj.end_date}</td>
-                        </tr>
-                        <tr>
-                            <th>Leave Type</th>
-                            <td>{obj.leave_type}</td>
-                        </tr>
-                        <tr>
-                            <th>Sub leave</th>
-                            <td>{obj.sub_leave}</td>
-                        </tr>
-                        <tr>
-                            <th>Status</th>
-                            <td>{obj.status}</td>
-                        </tr>
-                    </table><br>
-                    If you have any questions, please don't hesitate to reach out to us.<br><br>
-                    Regards,<br>
-                    The HR Team"""
-
+                <table style="border: 1px solid black;">
+                    <tr>
+                    <th>Start date</th>
+                    <td>{obj.start_date}</td>
+                    </tr>
+                    <th>End date</th>
+                    <td>{obj.end_date}</td>
+                    </tr>
+                    <tr>
+                    <th>Leave Type</th>
+                    <td>{obj.leave_type}</td>
+                    </tr>
+                    <tr>
+                    <th>Sub leave</th>
+                    <td>{obj.sub_leave}</td>
+                    </tr>
+                    <tr>
+                    <th>Status</th>
+                    <td>{obj.status}</td>
+                    </tr>
+                    <tr>
+                </table><br>
+                If you have any questions, please don't hesitate to reach out to us.<br><br>
+                Regards,<br>
+                The HR Team"""
     send_mail(
         'Leave Status',
         message,
