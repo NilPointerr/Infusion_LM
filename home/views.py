@@ -14,6 +14,7 @@ from .models import User
 from datetime import timedelta
 from django.urls import reverse
 from datetime import date, timedelta
+import calendar
 
 
 # Create your views here.
@@ -68,7 +69,7 @@ def register_1(request):
                 )
                 user.save()
 
-                return redirect('/')
+                return redirect('/dashboard')
         else:
             messages.error(request, 'password does not match')
             return render(request, 'register.html')
@@ -123,10 +124,11 @@ def leave_form(request):
         enddate = request.POST['enddate']
         leavetype = request.POST['select_value']
         subleave = request.POST['select_day']
+        reason = request.POST['reason']
         user = request.user
         leave = Leave_form(start_date=startdate, end_date=enddate,
                            leave_type=leavetype, sub_leave=subleave,
-                            user=user)
+                           reason = reason,user=user)
 
         leave.save()
 
@@ -393,6 +395,9 @@ def dashboard(request):
     Employee = total_user-superuser_count
 
     # count dayss between startday and endday excluding saturday and sunday
+
+
+
     user = request.user
     leaves = Leave_form.objects.filter(user=user)
     holidays_datelist = [date(2023, 1, 14), date(2023, 1, 26), date(2023, 3, 18), date(2023, 8, 11),
@@ -408,14 +413,25 @@ def dashboard(request):
             day = start_date + timedelta(days=j)
             if day.weekday() not in [5, 6] and day not in holidays_datelist:
                 working_days += 1
+
+        # Count the last Saturday of the month
+        last_day = calendar.monthrange(end_date.year, end_date.month)[1]
+        last_saturday = date(end_date.year, end_date.month, last_day)
+        while last_saturday.weekday() != calendar.SATURDAY:
+            last_saturday -= timedelta(days=1)
+
+        # Check if the last Saturday falls within the leave period
+        if last_saturday >= start_date and last_saturday <= end_date:
+            working_days += 1
+
         remaining_days = 18 - working_days
         i.remaining_days = remaining_days
         i.number_of_days = working_days
+
         if i.remaining_days <= 0:
             i.remaining_days = 0
-            i.save()        
-        else:
-            i.save()
+        i.save()
+
 
     con = {'total_canceled_leaves': total_canceled_leaves,
            'total_accept_leaves': total_accept_leaves,
@@ -493,3 +509,37 @@ def leave_request(request,pk):
 
 def holiday_list(request):
     return render(request,'holiday_list.html')
+
+
+def edit_profile(request,pk):
+    edit_user = User.objects.get(pk=pk)
+    get_department_value = User.department_choices
+    get_role_value = User.role_choices
+    get_employee_value = User.employee_choices
+
+    context = {
+        'get_department_value': get_department_value,
+        'get_role_value': get_role_value,
+        'get_employee_value': get_employee_value,
+        'edit_user': edit_user,
+               }
+
+    #logged in user can edit his profile
+    if request.method == 'POST':
+        edit_user.first_name = request.POST['first_name']
+        edit_user.last_name = request.POST['last_name']
+        edit_user.username = request.POST['username']
+        edit_user.image = request.FILES.get('profilepicture')
+
+        edit_user.birth_date = request.POST['birthdate']
+        edit_user.department = request.POST['department']
+        edit_user.role = request.POST['role']
+        edit_user.employee_type = request.POST['employeetype']
+        edit_user.save() 
+        print("data saved")
+        return redirect(reverse('userprofile', args=[edit_user.pk]))
+
+                
+    return render(request, 'edit_profile.html', context)
+
+    

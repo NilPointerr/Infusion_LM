@@ -133,7 +133,7 @@
 
       <section class="row">
         <section class="col-lg-12 col-md-12 col-sm-12 text-center space-margin">
-          <h3 class="title-h3"  style="color: white;">{{ emp.emp_user.username|upper }}</h3>
+          <h3 class="title-h3"  style="color: white;">{{ emp_user.username|upper }}</h3>
         </section>
       </section>
 
@@ -153,7 +153,7 @@
               role="tab"
               aria-controls=""
               ><span>Employee's Name</span>
-              <div><b>{{ emp.emp_user.username }}</b></div>
+              <div><b>{{ emp_user.username }}</b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"
@@ -183,7 +183,7 @@
               role="tab"
               aria-controls=""
               ><span>Email</span>
-              <div><b>{{emp.emp_user.email}}</b></div>
+              <div><b>{{emp_user.email}}</b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"

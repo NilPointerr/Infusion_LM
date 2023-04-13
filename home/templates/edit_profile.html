@@ -104,12 +104,18 @@
       max-width: 150px; /* adjust this value to change the width */
       width: 100%;
     }
-  
+    
   }</style>
+  
+  {% endblock %} {% block body %}
+<form method = "POST" action = "{% url 'editprofile' pk=edit_user.pk %}" enctype="multipart/form-data">
+<div class="page-title">
+  <h3  style="color: white;"><b>Edit Profile<b></h3>
+  </div>
 
-{% endblock %} {% block body %}
+
 <div style="background-color: transparent;">
-<section class="content" >
+ <section class="content" > 
   <section class="container-fluid">
     <section class="form-wrapper">
       <section class="row">
@@ -130,16 +136,18 @@
           {% endfor %} {% endif %}
         </section>
       </section>
-
+        {% csrf_token %}
       <section class="row">
         <section class="col-lg-12 col-md-12 col-sm-12 text-center space-margin">
-          <h3 class="title-h3"  style="color: white;">{{emp_user.username|upper }}</h3>
+          <h3 class="title-h3"  style="color: white;">{{edit_user.username|upper }}</h3>
         </section>
       </section>
+    </form>
 
       <section class="row">
           <section class="col-lg-4 text-center">
-            <img src="{{emp_user.image.url}}" class="img-fluid rounded-circle-image rounded-circle" style=   "border: 5px solid #fff; width: 250px; height: 250px; object-fit: cover;">
+            <img src="{{edit_user.image.url}}" class="img-fluid rounded-circle-image rounded-circle" style=   "border: 5px solid #fff; width: 250px; height: 250px; object-fit: cover;">
+
           </section>
 
         
@@ -149,116 +157,128 @@
               class="list-group-item list-group-item-action"
               id="list-home-list"
               data-toggle="list"
-              href=""
               role="tab"
               aria-controls=""
               ><span>First Name </span>
-              <div><b>{{emp_user.first_name }}</b></div>
+              <div><b><input type="text" class="form-control" name='first_name' placeholder=" " value = {{edit_user.first_name}}>
+              </b></div>
             </a>
             <a
               class="list-group-item list-group-item-action"
               id="list-home-list"
               data-toggle="list"
-              href=""
               role="tab"
               aria-controls=""
               ><span>Last Name</span>
-              <div><b>{{emp_user.last_name }}</b></div>
+              <div><input type="text" class="form-control" name='last_name' placeholder=" " value = {{edit_user.last_name}}>
+              </div>
             </a>
 
             <a
               class="list-group-item list-group-item-action"
               id="list-home-list"
               data-toggle="list"
-              href=""
+              role="tab"
+              aria-controls=""
+              ><span>Update Image</span>
+                <div class="position-relative">
+                  <input type="file" class="form-control" name='profilepicture' 
+                    style="background: transparent;">
+              </div>
+            </a>
+
+
+            <a
+              class="list-group-item list-group-item-action"
+              id="list-home-list"
+              data-toggle="list"
               role="tab"
               aria-controls=""
               ><span>User Name</span>
-              <div><b>{{emp_user.username }}</b></div>
+              <div><input type="text" class="form-control" name='username' placeholder=" " value = {{edit_user.username}}>
+              </div>
             </a>
 
             <a
               class="list-group-item list-group-item-action"
               id="list-profile-list"
               data-toggle="list"
-              href=""
               role="tab"
               aria-controls=""
               ><span>BirthDate</span>
-              <div><b> {{emp_user.birth_date}} </b></div>
+              <div><input type="date" class="form-control" name='birthdate' placeholder=" " value = {{edit_user.birth_date}} required>
+              </div>
             </a>
+
             <a
               class="list-group-item list-group-item-action"
-              id="list-messages-list"
+              id="list-settings-list"
               data-toggle="list"
-              href=""
               role="tab"
               aria-controls=""
-              ><span>Joining Date</span>
-              <div><b> {{emp_user.employee_joining_date}} </b></div>
+              ><label for="department"> Department</label>
+              <div> 
+                <select name="department" class="form-control">
+                  {% for i in get_department_value %}
+                  <option value="{{ i.0 }}">{{ i.0 }}</option>
+                  {% endfor %}
+              </select>              
+              </div>
             </a>
             <a
               class="list-group-item list-group-item-action"
               id="list-settings-list"
               data-toggle="list"
-              href=""
               role="tab"
-              aria-controls=""
-              ><span>Email</span>
-              <div><b>{{emp_user.email}}</b></div>
+              aria-controls=""><span> Role </span>
+              <div>
+                <select name="role" class="form-control" >
+                  {% for i in get_role_value %}
+                  <option value="{{ i.0 }}">{{ i.0 }}</option>
+                  {% endfor %}
+              </select>
+
+              </div>
             </a>
-            <a
+            <a    
               class="list-group-item list-group-item-action"
               id="list-settings-list"
               data-toggle="list"
-              href=""
-              role="tab"
-              aria-controls=""
-              ><span> Department</span>
-              <div><b>{{emp_user.department}} </b></div>
-            </a>
-            <a
-              class="list-group-item list-group-item-action"
-              id="list-settings-list"
-              data-toggle="list"
-              href=""
-              role="tab"
-              aria-controls=""
-              ><span> Role </span>
-              <div><b>{{emp_user.role}}</b></div>
-            </a>
-            <a
-              class="list-group-item list-group-item-action"
-              id="list-settings-list"
-              data-toggle="list"
-              href=""
               role="tab"
               aria-controls=""
               ><span>Employee Type</span>
-              <div><b>{{emp_user.employee_type}} </b></div>
+              <div>
+                <select name="employeetype" class="form-control" >
+                  {% for i in get_employee_value %}
+                  <option value="{{ i.0 }}">{{ i.0 }}</option>
+                  {% endfor %}
+              </select>              
+            </div>
             </a>
             <div class="btn-group btn-group-justified" style="margin-top: 10px;">
-              <a href="{% url 'editprofile' pk=emp_user.pk %}" class="btn btn-primary btn-lg" style="margin-right: 10px; position: relative; max-width: 150px;">Edit Profile</a>
-                  
+
+              <button type="submit" class="btn btn-success btn-lg" style="margin-right: 10px; position: relative; max-width: 200px;">Update Profile</button>
+
             </div>
 
-        </form>
+
           </div>
         </section>
       </section>
-
+      
       <span style="font-size: 13px; padding-left: 1rem" class="pull-left"
-        >Created <b></b
-      ></span>
+      >Created <b></b
+        ></span>
+      </section>
     </section>
+    
   </section>
-
-</section>
 </div>
+</form>
 {% endblock %}
 
 <script type="text/javascript">
   {% block extrajs%}
-
+  
   {% endblock %}
 </script>
