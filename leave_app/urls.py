@@ -4,8 +4,9 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('/leaveform/',views.leaveFormView,name='leaveform'),
-    
+    path('leaveform/',views.leaveFormView,name='leaveform'),
+    path('holidays_list/',views.holidaysListView,name='holidayslist')
+   
 ]  
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

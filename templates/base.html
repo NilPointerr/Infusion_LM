@@ -1,0 +1,129 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Employee Leave Management System</title>
+      <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+      <script defer src="{% static 'assets/fontawesome/js/all.min.js' %}"></script>
+      <link rel="stylesheet" href="{% static 'assets/vendors/chartjs/Chart.min.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.css' %}">
+      <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+      <link rel="stylesheet" href="assets/vendors/simple-datatables/style.css">
+      <style type="text/css">
+        .notif:hover{
+          background-color: rgba(0,0,0,0.1);
+                  }
+      </style>
+   </head>
+   <body>
+      <div id="app">
+         
+         <div id="sidebar" class='active'>
+            <div class="sidebar-wrapper active">
+               <div class="sidebar-header" style="height: 50px;margin-top: -30px">
+                      <i class="fa fa-users text-success me-4"></i>
+                        <span>ELMS</span>
+                </div>
+               <div class="sidebar-menu">
+                  <ul class="menu">
+                     <li class="sidebar-item active ">
+                        <a href="{% url 'userdashboard' id=user.id %}" class='sidebar-link'>
+                        <i class="fa fa-home text-success"></i>
+                        <span>Dashboard</span>
+                        </a>
+                     </li>
+                     
+
+                     <li class="sidebar-item  has-sub">
+                      <a href="#" class='sidebar-link'>
+                      <i class="fa fa-building text-success"></i>
+                      <span>Leave</span>
+                      </a>
+                      <ul class="submenu ">
+                         <li>
+                            <a href="{% url 'leaveform' %}">Apply Leave</a>
+                         </li>
+                         
+                      </ul>
+                   </li>
+
+                   <li class="sidebar-item  has-sub">
+                     <a href="#" class='sidebar-link'>
+                     <i class="fa fa-building text-success"></i>
+                     <span>Holidays</span>
+                     </a>
+                     <ul class="submenu ">
+                        <li>
+                           <a href="{% url 'holidayslist' %}">Holidays List </a>
+                        </li>
+                         
+                     </ul>
+                  </li>
+                     
+                  </ul>
+               </div>
+               <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+            </div>
+         </div>
+         <div id="main">
+            <nav class="navbar navbar-header navbar-expand navbar-light">
+               <a class="sidebar-toggler" href="#"><span class="navbar-toggler-icon"></span></a>
+               <button class="btn navbar-toggler" type="button" data-bs-toggle="collapse"
+                  data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                  aria-expanded="false" aria-label="Toggle navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                  <ul class="navbar-nav d-flex align-items-center navbar-light ms-auto">
+                   
+                     <li class="dropdown">
+                      {% if request.user.is_authenticated %}
+                           <div class="d-none d-md-block d-lg-inline-block">Welcome, {{ request.user.first_name }}</div>
+                           {% else %}
+                           
+                           {% endif %}
+                        <a href="#" data-bs-toggle="dropdown"
+                           class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+                           <div class="avatar me-1">
+                              <img src="{{ request.user.image.url }}" alt="" srcset="">
+                           </div>
+                            
+                        </a>
+                        
+
+                        
+                        <div class="dropdown-menu dropdown-menu-end">
+                           <!-- <a class="dropdown-item" href="#"><i data-feather="user"></i> Account</a> -->
+                           <!-- <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a> -->
+                           <!-- <div class="dropdown-divider"></div> -->
+                           <a class="dropdown-item" href="{% url 'userprofile' id=user.id  %}"><i data-feather="user"> </i>Profile Details</a>
+                           <a class="dropdown-item" href="{% url 'logout' %}"><i data-feather="log-out"></i> Logout</a>
+                           
+                        </div>
+                     </li>
+                  </ul>
+               </div>
+            </nav>
+            {% block content %}
+            {% endblock %}
+         </div>
+      </div>
+   </body>
+</html>
+
+<script src="{% static 'assets/js/feather-icons/feather.min.js' %}"></script>
+<script src="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+<script src="{% static 'assets/js/app.js' %}"></script>
+<script src="{% static 'assets/js/main.js' %}"></script>
+<script src="{% static 'assets/vendors/chartjs/Chart.min.js' %}"></script>
+<script src="{% static 'assets/vendors/apexcharts/apexcharts.min.js' %}"></script>
+<script src="{% static 'assets/js/pages/dashboard.js' %}"></script>
+
+
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script src="assets/js/vendors.js"></script>
+
+

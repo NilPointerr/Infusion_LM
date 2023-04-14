@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="main-content container-fluid">
+    <section id="multiple-column-form">
+        <div class="row match-height">
+
+            <div class="col-9">
+                <div class="card">
+
+                    <div class="card-content">
+                        <div class="card-body">
+                            <!-- <div class="row"> -->
+                                <div class="col-md-6 col-12">
+                                    <div class="position-relative">
+                                        <label>First Name : </label>
+                                        {{ get_user_detail.first_name }}
+                                        <label>Last Name : </label>
+                                        {{ get_user_detail.last_name }}
+                                        <label>Username : </label>
+                                        {{ get_user_detail.username}}
+                                        <label>Email : </label>
+                                        {{ get_user_detail.email}}
+
+                                        <label>Birth Date : </label>
+                                        {{ get_user_detail.birth_date}}
+
+                                        <label>Employee Joining Date : </label>
+                                        {{ get_user_detail.employee_joining_date}}
+
+                                        <label>Department : </label>
+                                        {{ get_user_detail.department}}
+
+                                        <label>Role : </label>
+                                        {{ get_user_detail.role}}
+
+                                        <label> Employee Type : </label>
+                                        {{ get_user_detail.employee_type}}
+
+
+                                    </div>
+                                </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}
