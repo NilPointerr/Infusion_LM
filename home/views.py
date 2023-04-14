@@ -564,8 +564,11 @@ def edit_profile(request,pk):
         edit_user.first_name = request.POST['first_name']
         edit_user.last_name = request.POST['last_name']
         edit_user.username = request.POST['username']
-        edit_user.image = request.FILES.get('profilepicture')
-
+        if 'profilepicture' in request.FILES:
+            edit_user.image = request.FILES['profilepicture']
+        else:
+            # set the previous image if there is no new picture uploaded
+            edit_user.image = edit_user.image
         edit_user.birth_date = request.POST['birthdate']
         edit_user.department = request.POST['department']
         edit_user.role = request.POST['role']
