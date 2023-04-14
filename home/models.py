@@ -103,11 +103,11 @@ class Leave_form(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     leave_type = models.CharField(max_length=100, choices=typeofleave)
-    number_of_days = models.CharField(max_length=100,default='')
-    remaining_days = models.CharField(max_length=100,default='')
+    number_of_days = models.IntegerField(default=0)
+    remaining_days = models.IntegerField(max_length=100,default=18)
     sub_leave = models.CharField(max_length=100, choices=leaveday)
     status = models.CharField(max_length=100,choices=statustype,default='Pending')
-    reason = models.CharField(max_length=500,default='')
+    reason = models.CharField(max_length=500,default='No reason')
 
     def __str__(self):
         return self.user.username
