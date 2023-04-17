@@ -104,13 +104,26 @@ class Leave_form(models.Model):
     end_date = models.DateField()
     leave_type = models.CharField(max_length=100, choices=typeofleave)
     number_of_days = models.IntegerField(default=0)
-    remaining_days = models.IntegerField(max_length=100,default=18)
+    remaining_days = models.IntegerField(default=18)
     sub_leave = models.CharField(max_length=100, choices=leaveday)
     status = models.CharField(max_length=100,choices=statustype,default='Pending')
     reason = models.CharField(max_length=500,default='No reason')
 
     def __str__(self):
         return self.user.username
+    
+
+    def save(self, *args, **kwargs):
+        # Calculate the number of days between the start and end dates
+        delta = self.end_date - self.start_date
+        self.number_of_days = delta.days + 1
+
+        # Update the remaining days based on the number of days taken
+        if str(self.remaining_days).isnumeric():
+            self.remaining_days = int(self.remaining_days) - self.number_of_days
+
+        # Call the superclass save method to save the object
+        super(Leave_form, self).save(*args, **kwargs)
     # class Meta:
 
     #     managed = True
@@ -125,3 +138,26 @@ class Reason(models.Model):
         return self.user.username
     class Meta:
         db_table = 'reason'
+
+
+
+class Holiday_list(models.Model):
+    daylist=[
+        ('Sunday','Sunday'),
+        ('Monday','Monday'),
+        ('Tuesday','Tuesday'),
+        ('Wednesday','Wednesday'),
+        ('Thursday','Thursday'),
+        ('Friday','Friday'),
+        ('Saturday','Saturday'),
+    ]
+    id = models.AutoField(primary_key=True)
+    date=models.DateField()
+    day=models.CharField(max_length=100,choices=daylist)
+    festival_name=models.CharField(max_length=100)
+
+
+    def __str__(self):
+        return self.festival_name
+    class Meta:
+        ordering = ['date']

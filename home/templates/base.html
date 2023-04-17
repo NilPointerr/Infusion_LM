@@ -35,6 +35,7 @@
                         <span>Dashboard</span>
                      </a>
                   </li>
+
                   {%if user.is_superuser%}
                   <li class="sidebar-item  ">
                      <a href="/manage" class='sidebar-link'>
@@ -48,26 +49,32 @@
                      <span>Register employee</span>
                      </a>
                   </li>
+                  <li class="sidebar-item">
+                     <a href="/addholiday" class='sidebar-link'>
+                     <i class="fa fa-building text-success"></i>
+                     <span>Edit Holiday List</span>
+                     </a>
+                  </li>
 
+
+                  {%else%}
+                  <li class="sidebar-item  ">
+                     <a href="/leaveform" class='sidebar-link'>
+                        <i class="fa fa-building text-success"></i>
+                        <span>Leave Form </span>
+                     </a>
+                  </li>
+              
+                  {%endif%}
+                  <li class="sidebar-item  ">
+                     <a href="/holidaylist" class='sidebar-link'>
+                        <i class="fa fa-building text-success"></i>
+                        <span>Holiday List </span>
+                     </a>
+                  </li>
 
                </ul>
             </div>
-            {%else%}
-            <li class="sidebar-item  ">
-               <a href="/leaveform" class='sidebar-link'>
-                  <i class="fa fa-building text-success"></i>
-                  <span>Leave Form </span>
-               </a>
-            </li>
-            <li class="sidebar-item  ">
-               <a href="/holidaylist" class='sidebar-link'>
-                  <i class="fa fa-building text-success"></i>
-                  <span>Holiday List </span>
-               </a>
-            </li>
-
-            
-            {%endif%}
             <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
          </div>
       </div>

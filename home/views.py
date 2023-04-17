@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render
-from .models import Leave_form, Reason
+from .models import Leave_form, Reason,Holiday_list
 from django.contrib.auth.models import User
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -15,7 +15,8 @@ from datetime import timedelta
 from django.urls import reverse
 from datetime import date, timedelta ,datetime
 import calendar
-from django.db.models import Sum
+from datetime import datetime
+
 
 
 
@@ -128,16 +129,14 @@ def leave_form(request):
         subleave = request.POST['select_day']
         reason = request.POST['reason']
         user = request.user
-
-        remaining_days = 0
+        total_days = 18 
+        remaining_days = total_days
         working_days = 0
         if startdate and enddate:  # check if startdate and enddate are not empty
             if Leave_form.objects.filter(user=user).exists():
                 user_profile = Leave_form.objects.get(user=user)
                 remaining_days = int(user_profile.remaining_days)
-                holidays_datelist = [date(2023, 1, 14), date(2023, 1, 26), date(2023, 3, 18), date(2023, 8, 11),
-                                    date(2023, 8, 15), date(2023, 8, 19), date(2023, 10, 5), date(2023, 10, 24),
-                                    date(2023, 10, 25), date(2023, 10, 26)]
+                holidays_datelist =Holiday_list.objects.values_list('date',flat=True)
                 num_days = (datetime.strptime(enddate, '%Y-%m-%d') - datetime.strptime(startdate, '%Y-%m-%d')).days + 1
                 working_days = 0
                 for j in range(num_days):
@@ -148,7 +147,6 @@ def leave_form(request):
                 remaining_days -= working_days
                 user_profile.remaining_days = remaining_days
                 user_profile.save()
-
             else:
                 user_profile = None
 
@@ -180,8 +178,12 @@ def manageleave(request):
 def accept_1(request, pk):
     user = User.objects.get(pk=pk)
     obj = get_object_or_404(Leave_form, user_id=pk)
-    obj.status = 'Approved'
-    obj.save()
+    
+    if request.POST.get('action') == 'approve':
+        # Update the status to "Approved"
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        obj.status = 'Approved'
+        obj.save()   
 
     if 'description' in request.POST:
         reason_text = request.POST.get('description')
@@ -260,6 +262,7 @@ def reject_1(request, pk):
     user = User.objects.get(pk=pk)
     obj = get_object_or_404(Leave_form, user_id=pk)
     obj.status = 'Rejected'
+    
     obj.save()
 
     if 'description' in request.POST:
@@ -543,7 +546,9 @@ def leave_request(request,pk):
 
 
 def holiday_list(request):
-    return render(request,'holiday_list.html')
+    list_of_holiday  = Holiday_list.objects.all()
+    con = {'list_of_holiday':list_of_holiday}
+    return render(request,'holiday_list.html',con)
 
 
 def edit_profile(request,pk):
@@ -580,4 +585,22 @@ def edit_profile(request,pk):
                 
     return render(request, 'edit_profile.html', context)
 
+
+def add_holidays(request):
+    if request.method == "POST":
+        date_str = request.POST["date"]
+        date = datetime.strptime(date_str, '%Y-%m-%d')
+        day = date.strftime('%A')
+        festivalname= request.POST["festival_name"]
+
+        data = Holiday_list(date=date_str,day=day,festival_name=festivalname )
+        data.save()
+        return redirect("/holidaylist")
     
+    return render(request,"add_holidays.html")
+
+
+def delete_holiday(request, pk):
+    holiday = get_object_or_404(Holiday_list, pk=pk)
+    holiday.delete()
+    return redirect("/holidaylist")

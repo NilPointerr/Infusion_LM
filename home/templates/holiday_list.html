@@ -22,72 +22,27 @@
                                                     <th>Date</th>
                                                     <th>Day</th>
                                                     <th>Name</th>
-                                                    
+                                                    <th></th>
                                                 </tr>
 
 
                                             </thead>
                                             <tbody>
+                                                {% for i in list_of_holiday %}
                                                 <tr>
-                                                    <td>14th January</td>
-                                                    <td>Friday</td>
-                                                    <td>Makar Sankranti</td>
+                                                    <td>{{i.date}} </td>
+                                                    <td>{{i.day}} </td>
+                                                    <td>{{i.festival_name}} </td>
+                                                    {%if user.is_superuser%}
+                                                    <td>
+                                                    <form action="{% url 'deleteholiday' pk=i.pk %}" method="POST">
+                                                        {% csrf_token %}
+                                                        <button type="submit" name="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                    </td>
+                                                    {%endif%}
                                                 </tr>
-                                                <tr>
-                                                    <td>26th January</td>
-                                                    <td>Wednesday</td>
-                                                    <td>Republic Day</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>18th March</td>
-                                                    <td>Friday</td>
-                                                    <td>Dhuleti</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>11th August</td>
-                                                    <td>Thursday</td>
-                                                    <td>Rakshabandhan</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>15th August</td>
-                                                    <td>Monday</td>
-                                                    <td>Independence Day</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>19th August</td>
-                                                    <td>Friday</td>
-                                                    <td>Janmashtami</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>5th October</td>
-                                                    <td>Wednesday</td>
-                                                    <td>Dussehra</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>24th October</td>
-                                                    <td>Monday</td>
-                                                    <td>Diwali</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>25th October</td>
-                                                    <td>Tuesday</td>
-                                                    <td>New Year</td>
-                                                </tr>
-
-                                                <tr>
-                                                    <td>26th October</td>
-                                                    <td>Wednesday</td>
-                                                    <td>Bhai Dooj</td>
-                                                </tr>
-
-
+                                               {%endfor%}
                                             </tbody>
                                         </table>
 
