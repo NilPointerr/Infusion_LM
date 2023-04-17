@@ -179,11 +179,11 @@ def accept_1(request, pk):
     user = User.objects.get(pk=pk)
     obj = get_object_or_404(Leave_form, user_id=pk)
     
-    if request.POST.get('action') == 'approve':
-        # Update the status to "Approved"
-        print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
-        obj.status = 'Approved'
-        obj.save()   
+
+    # Update the status to "Approved"
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$")
+    obj.status = 'Approved'
+    obj.save()   
 
     if 'description' in request.POST:
         reason_text = request.POST.get('description')

@@ -225,28 +225,23 @@
               ><span>Reason</span>
               <div><b>{{ emp.reason}}</b></div>
             </a>
-            <form method="post" action="{% url 'reject' pk=emp.user.pk %}">
+            <form id="myform" method="post" action="{% url 'reject' pk=emp.user.pk %}">
               {% csrf_token %}
-            <a
-            class="list-group-item list-group-item-action"
-            id="list-settings-list"
-            data-toggle="list"
-            role="tab"
-            aria-controls=""
-            ><span>Reason</span>
-            <br>
-            <textarea rows="5" cols="60" name="description">Enter Reason here...</textarea>
-            <br>
-          </a>
-          <input type="hidden" name="reason" value="{{ reason }}">
-          <div class="btn-group btn-group-justified" style="margin-top: 10px;">
-            <button type="submit" name="action" value="reject" class="btn btn-danger" style="margin-right: 10px;">Decline</button>
-            <button type="submit" name="action" value="approve" class="btn btn-success" style="margin-right: 10px;">Approve</button>
-            <a href="{% url 'cancel' pk=emp.user.pk %}" class="btn btn-info">Cancel</a>
-          </div>
+              <a class="list-group-item list-group-item-action" id="list-settings-list" data-toggle="list" role="tab" aria-controls="">
+                  <span>Reason</span>
+                  <br>
+                  <textarea rows="5" cols="60" name="description">Enter Reason here...</textarea>
+                  <br>
+              </a>
+              <input type="hidden" name="reason" value="{{ reason }}">
+              <div class="btn-group btn-group-justified" style="margin-top: 10px;">
+                  <button type="button" name="action" value="reject" class="btn btn-danger" onclick="document.getElementById('myform').action='{% url 'reject' pk=emp.user.pk %}'; document.getElementById('myform').submit();" style="margin-right: 10px;">Decline</button>
+                  <button type="button" name="action" value="approve" class="btn btn-success" onclick="document.getElementById('myform').action='{% url 'accept' pk=emp.user.pk %}'; document.getElementById('myform').submit();" style="margin-right: 10px;">Approve</button>
+                  <a href="{% url 'cancel' pk=emp.user.pk %}" class="btn btn-info">Cancel</a>
+              </div>
+          </form>
           
-
-        </form>
+          
           </div>
         </section>
       </section>
