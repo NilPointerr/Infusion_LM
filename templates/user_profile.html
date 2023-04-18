@@ -1,54 +1,86 @@
 {% extends 'base.html' %}
 {% load static %}
-
-
 {% block content %}
-<div class="main-content container-fluid">
-    <section id="multiple-column-form">
-        <div class="row match-height">
 
-            <div class="col-9">
-                <div class="card">
+<head>
+    <link rel="stylesheet"  href="{% static '/static/css/user_profile.css' %}">
+    <style>
+        
+        
+        .maindiv{
+            border: 2px solid ;
+            margin: 50px 0px 0px 310px;
+            padding: 20px;
+        }
+        .editprofilebtn{
+          text-align: center;
+          
+          margin: 20px 10px 10px 50px;
+        }
+        .editprofilelink{
+          color: black;
 
-                    <div class="card-content">
-                        <div class="card-body">
-                            <!-- <div class="row"> -->
-                                <div class="col-md-6 col-12">
-                                    <div class="position-relative">
-                                        <label>First Name : </label>
-                                        {{ get_user_detail.first_name }}
-                                        <label>Last Name : </label>
-                                        {{ get_user_detail.last_name }}
-                                        <label>Username : </label>
-                                        {{ get_user_detail.username}}
-                                        <label>Email : </label>
-                                        {{ get_user_detail.email}}
-
-                                        <label>Birth Date : </label>
-                                        {{ get_user_detail.birth_date}}
-
-                                        <label>Employee Joining Date : </label>
-                                        {{ get_user_detail.employee_joining_date}}
-
-                                        <label>Department : </label>
-                                        {{ get_user_detail.department}}
-
-                                        <label>Role : </label>
-                                        {{ get_user_detail.role}}
-
-                                        <label> Employee Type : </label>
-                                        {{ get_user_detail.employee_type}}
-
-
-                                    </div>
-                                </div>
-                            <!-- </div> -->
-                        </div>
-                    </div>
-                </div>
-
+        }
+    </style>
+</head>
+<div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad maindiv" >
+        <div class="panel panel-primary">
+          <div class="panel-heading">
+            <!-- <h3 class="panel-title">Jordan Ramey</h3> -->
+          </div>
+          <div class="panel-body">
+            <div class="row">
+              <div class="col-md-4 col-lg-4 " > <img alt="User Pic" src="{{ request.user.image.url }}" class="rounded-circle" width="200px" height="200px"> 
+              <button type="submit" class="editprofilebtn"  > <a href="{% url 'edituserprofile' id=user.id %}" class='editprofilelink' >Edit Profile</a></button>
             </div>
+              <div class=" col-md-8 col-lg-8 ">
+                <table class="table table-user-information">
+                  <tbody>
+                    <tr>
+                      <td> Name :</td>
+                      <td>{{ get_user_detail.first_name }} {{ get_user_detail.last_name }}</td>
+                    </tr>
+                    <tr>
+                      <td>Username :</td>
+                      <td>{{ get_user_detail.username}}</td>
+                    </tr>
+                    <tr>
+                      <td>Email :</td>
+                      <td> {{ get_user_detail.email}}</td>
+                    </tr>
+                    <tr>
+                      <tr>
+                        <td>Birth Date :</td>
+                        <td>{{ get_user_detail.birth_date}}</td>
+                      </tr>
+                      <tr>
+                        <td>Employee Joining  Date:</td>
+                        <td> {{ get_user_detail.employee_joining_date}}</td>
+                      </tr>
+                      <tr>
+                        <td>Department : </td>
+                        <td>{{ get_user_detail.department}}</td>
+
+                        <!-- <td><a href="mailto:info@support.com">info@email.com</a></td> -->
+                      </tr>
+                      <td>Role :</td>
+                      <td> {{ get_user_detail.role}} </td>
+
+                    </tr>
+                    <tr>
+                      <td>Employee Type : </td>
+                      <td>{{ get_user_detail.employee_type}}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
         </div>
-    </section>
-</div>
+      </div>
+    </div>
+  </div>
+
 {% endblock %}

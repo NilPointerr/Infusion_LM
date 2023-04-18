@@ -1,0 +1,259 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.css' %}">
+
+    <script defer src="{% static 'assets/fontawesome/js/all.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/app.css' %}">
+    <style type="text/css">
+        .notif:hover {
+            background-color: rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            position: relative;
+            left: 230px;
+            top: 100px;
+            padding: 20px;
+        }
+
+        h3 {
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-content container-fluid">
+        <!-- <div class="page-title">
+                      
+                        <div class="col-12 col-md-6 order-md-1 order-last mx-5">
+                            <h3 style="text-align: center ;">Register</h3>
+                        </div>
+                       
+                        </div> -->
+
+
+
+
+        <!-- // Basic multiple Column Form section start -->
+        <section id="multiple-column-form">
+            <div class="row match-height">
+                <div class="col-9">
+                    <div class="card">
+                        <h3>User Profile</h3>
+                        <div class="card-content">
+                            <div class="card-body">
+                                <form class="form" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">First Name</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" placeholder="first name"
+                                                        id="first-name-icon" name="firstname"
+                                                        value="{{ get_user_detail.first_name }}">
+                                                    <div class="form-control-icon">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Last Name</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" placeholder="last name"
+                                                        id="first-name-icon" name="lastname"
+                                                        value="{{ get_user_detail.last_name }}">
+                                                    <div class="form-control-icon">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Username</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" placeholder="username"
+                                                        id="first-name-icon" name="username"
+                                                        value="{{  get_user_detail.username }}" disabled>
+                                                    <div class="form-control-icon">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Email</label>
+                                                <div class="position-relative">
+                                                    <input type="text" class="form-control" placeholder="email"
+                                                        id="first-name-icon" name="email"
+                                                        value="{{ get_user_detail.email }}" disabled>
+                                                    <div class="form-control-icon">
+                                                        <i class="fa fa-envelope"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Password</label>
+                                                <div class="position-relative">
+                                                    <input type="password" class="form-control" placeholder="password"
+                                                        id="first-name-icon" name="password">
+                                                    <div class="form-control-icon">
+                                                        <i class="fa fa-key"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Confirm Password</label>
+                                                <div class="position-relative">
+                                                    <input type="password" class="form-control"
+                                                        placeholder="confirm password" id="first-name-icon"
+                                                        name="confirmpassword">
+                                                    <div class="form-control-icon">
+                                                        <i class="fa fa-key"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon-left">
+                                                <label for="first-name-icon">Profile Picture</label>
+                                                <div class="position-relative">
+
+                                                    <input type="file" class="form-control" id="first-name-icon"
+                                                        name="profilepicture" >
+                                                        <!-- <img src="{{ get_user_detail.image.url }}" > -->
+                                                    <div class="form-control-icon">
+                                                        <i class="fa fa-user"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <!-- <div class="form-group has-icon-left"> -->
+                                            <label for="first-name-icon">Birth Date</label>
+                                            <div class="position-relative">
+                                                <input type="date" class="form-control" placeholder=""
+                                                    id="first-name-icon" name="birthdate"
+                                                    value="{{ get_user_detail.birth_date|date:'Y-m-d' }}">
+                                                <!-- <div class="form-control-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </div> -->
+                                            </div>
+                                            <!-- </div> -->
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <!-- <div class="form-group has-icon-left"> -->
+                                            <label for="first-name-icon">Employee Joining Date</label>
+                                            <div class="position-relative">
+                                                <input type="date" class="form-control" placeholder=""
+                                                    id="first-name-icon" name="employeejoiningdate"
+                                                    value="{{ get_user_detail.employee_joining_date|date:'Y-m-d' }}">
+                                                <!-- <div class="form-control-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </div> -->
+                                            </div>
+                                            <!-- </div> -->
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon">
+                                                <label for="first-name-icon">Department</label>
+                                                <div class="position-relative">
+                                                    <select name="department" class="form-control">
+                                                        {% for i in get_department_value %}
+                                                        <option value="{{ i.0 }}" {% if i.0 == get_user_detail.department %}selected{% endif %}>{{ i.0 }}</option>
+
+                                                        {% endfor %}
+
+                                                    </select>
+                                                    <!-- <input type="text" class="form-control" placeholder="confirmpassword" id="first-name-icon" name="confirmpassword"> -->
+                                                    <!-- <div class="form-control-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon">
+                                                <label for="first-name-icon">Role</label>
+                                                <div class="position-relative">
+                                                    <select name="role" class="form-control">
+                                                        {% for i in get_role_value %}
+                                                        <option value="{{ i.0 }}" {% if i.0 == get_user_detail.role %}selected{% endif %}>{{ i.0 }}</option>
+                                                        {% endfor %}
+                                                    </select>
+
+                                                    <!-- <input type="text" class="form-control" placeholder="confirmpassword" id="first-name-icon" name="confirmpassword">
+                                                <div class="form-control-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </div> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-12">
+                                            <div class="form-group has-icon">
+                                                <label for="first-name-icon">Employee Type</label>
+                                                <div class="position-relative">
+                                                    <select name="employeetype" class="form-control">
+                                                        {% for i in get_employee_value %}
+                                                        <option value="{{ i.0 }}" {% if i.0 == get_user_detail.employee_type %}selected{% endif %}>                       
+                                                            {{ i.0 }}
+                                                        </option>
+                                                        {% endfor %}
+
+                                                    </select>
+                                                    <!-- <input type="text" class="form-control" placeholder="confirmpassword" id="first-name-icon" name="confirmpassword">
+                                                <div class="form-control-icon">
+                                                    <i class="fa fa-user"></i>
+                                                </div> -->
+                                                </div><br>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 d-flex justify-content-center">
+                                            <button type="submit" class="btn btn-primary me-1 mb-1" {%
+                                                url 'edituserprofile' id=user.id %}>Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- </div> -->
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <!-- // Basic multiple Column Form section end -->
+    </div>
+
+
+    <script src="{% static 'assets/js/feather-icons/feather.min.js' %}"></script>
+    <script src="{% static 'assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js' %}"></script>
+    <script src="{% static 'assets/js/app.js' %}"></script>
+
+    <script src="{% static 'assets/js/main.js' %}"></script>
+</body>
+
+</html>

@@ -16,6 +16,9 @@
         .notif:hover{
           background-color: rgba(0,0,0,0.1);
                   }
+         .infusiontext{
+            font-size: 27px;
+         }
       </style>
    </head>
    <body>
@@ -24,8 +27,9 @@
          <div id="sidebar" class='active'>
             <div class="sidebar-wrapper active">
                <div class="sidebar-header" style="height: 50px;margin-top: -30px">
-                      <i class="fa fa-users text-success me-4"></i>
-                        <span>ELMS</span>
+                  <img src="/static/images/logo.png" width="70px" height="100px">
+                      <!-- <i class="fa fa-users text-success me-4"></i> -->
+                        <span class="infusiontext">Infusion</span>
                 </div>
                <div class="sidebar-menu">
                   <ul class="menu">
@@ -100,7 +104,9 @@
                            <!-- <a class="dropdown-item" href="#"><i data-feather="settings"></i> Settings</a> -->
                            <!-- <div class="dropdown-divider"></div> -->
                            <a class="dropdown-item" href="{% url 'userprofile' id=user.id  %}"><i data-feather="user"> </i>Profile Details</a>
+                           <a class="dropdown-item" href="#"><i class="fa fa-key"></i> Change Password </a>
                            <a class="dropdown-item" href="{% url 'logout' %}"><i data-feather="log-out"></i> Logout</a>
+                           <!-- class="fa fa-key" -->
                            
                         </div>
                      </li>
